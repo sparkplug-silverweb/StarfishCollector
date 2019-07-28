@@ -79,19 +79,19 @@ public class BaseActor extends Actor
             Texture texture = new Texture( Gdx.files.internal(fileName) );
             texture.setFilter( TextureFilter.Linear, TextureFilter.Linear );
             textureArray.add( new TextureRegion( texture ) );
-            
-            Animation<TextureRegion> anim = new Animation<TextureRegion>(frameDuration, textureArray);
-            if (loop)
-                anim.setPlayMode(Animation.PlayMode.LOOP);
-            else
-                anim.setPlayMode(Animation.PlayMode.NORMAL);
-            
-            if (animation == null)
-                setAnimation(anim);
-            
-            return anim;
-        }
+        }   
         
+        Animation<TextureRegion> anim = new Animation<TextureRegion>(frameDuration, textureArray);
+        if (loop)
+            anim.setPlayMode(Animation.PlayMode.LOOP);
+        else
+            anim.setPlayMode(Animation.PlayMode.NORMAL);
+
+        if (animation == null)
+            setAnimation(anim);
+
+        return anim;
+  
     }
     
     public Animation<TextureRegion> loadAnimationFromSheet(String fileName, int rows, int cols, float frameDuration, boolean loop)
@@ -100,8 +100,11 @@ public class BaseActor extends Actor
         texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
         int frameWidth = texture.getWidth() / cols;
         int frameHeight = texture.getHeight() / rows;
+        
         TextureRegion[][] temp = TextureRegion.split(texture, frameWidth, frameHeight);
+        
         Array<TextureRegion> textureArray = new Array<TextureRegion>();
+        
         for (int r = 0; r < rows; r++)
             for (int c = 0; c < cols; c++)
                 textureArray.add( temp[r][c] );
