@@ -55,8 +55,10 @@ public class ActorBeta extends Actor
         super.draw( batch, parentAlpha );
         Color c = getColor(); // used to apply tint color effect
         batch.setColor(c.r, c.g, c.b, c.a);
+        
         if ( isVisible() )
-        batch.draw( textureRegion,
+            batch.draw( textureRegion,
+        
         getX(), getY(), getOriginX(), getOriginY(),
         getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation() );
     }
