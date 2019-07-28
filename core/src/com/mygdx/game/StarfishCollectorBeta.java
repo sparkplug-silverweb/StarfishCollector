@@ -29,20 +29,28 @@ public class StarfishCollectorBeta extends GameBeta
 
         ocean = new ActorBeta();
         ocean.setTexture( new Texture( Gdx.files.internal("assets/water.jpg") ) );
+        
         mainStage.addActor(ocean);
+        
         starfish = new ActorBeta();
         starfish.setTexture( new Texture(Gdx.files.internal("assets/starfish.png")) );
         starfish.setPosition( 380,380 );
+        
         mainStage.addActor( starfish );
+        
         turtle = new Turtle();
         turtle.setTexture( new Texture(Gdx.files.internal("assets/turtle-1.png")) );
         turtle.setPosition( 20,20 );
+        
         mainStage.addActor( turtle );
+        
         winMessage = new ActorBeta();
         winMessage.setTexture( new Texture(Gdx.files.internal("assets/you-win.png")) );
         winMessage.setPosition( 180,180 );
         winMessage.setVisible( false );
+        
         mainStage.addActor( winMessage );
+        
         win = false;
     }
     

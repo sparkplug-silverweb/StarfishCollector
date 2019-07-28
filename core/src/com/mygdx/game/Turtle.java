@@ -7,6 +7,8 @@ package com.mygdx.game;
  */
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Turtle extends BaseActor
@@ -17,7 +19,7 @@ public class Turtle extends BaseActor
         
         String[] filenames =  {"assets/turtle-1.png", "assets/turtle-2.png", "assets/turtle-3.png", "assets/turtle-4.png", "assets/turtle-5.png", "assets/turtle-6.png"};
         
-        loadAnimationFromFiles(filenames,0.1f,true);
+       loadAnimationFromFiles(filenames,0.1f,true);
     }
     
     @Override
