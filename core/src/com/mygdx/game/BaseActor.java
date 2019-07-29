@@ -15,11 +15,23 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.MathUtils;
+
 public class BaseActor extends Actor
 {
     private Animation<TextureRegion> animation;
     private float elapsedTime;
     private boolean animationPaused;
+    
+    private final Vector2 velocityVec;
+    
+    private final Vector2 accelerationVec;
+    private float acceleration;
+    
+    private float maxSpeed;
+    private float deceleration;
+    
     
     public BaseActor(float x, float y, Stage s)
     {
@@ -32,6 +44,15 @@ public class BaseActor extends Actor
         animation = null;
         elapsedTime = 0;
         animationPaused = false;
+        velocityVec = new Vector2(0,0);
+        
+        accelerationVec = new Vector2(0,0);
+        acceleration = 0;
+        
+        maxSpeed= 1000;
+        deceleration = 0;
+        
+        
     }
     
     public void setAnimation(Animation<TextureRegion> anim)
@@ -132,6 +153,85 @@ public class BaseActor extends Actor
     public boolean isAnimationFinished()
     {
         return animation.isAnimationFinished(elapsedTime);
+    }
+    
+    public void setSpeed(float speed)
+    {
+        // if length is zero, then assume motion angle is zero degrees
+        if(velocityVec.len() == 0)
+            velocityVec.set(speed,0);
+        else
+            velocityVec.setLength(speed);
+                    
+    }
+    
+    public float getSpeed()
+    {
+        return velocityVec.len();
+    }
+    
+    public void setMotionAngle(float angle)
+    {
+        velocityVec.setAngle(angle);
+    }
+    
+    public float getMotionAngle()
+    {
+        return velocityVec.angle();
+    }
+    
+    public boolean isMoving()
+    {
+        return (getSpeed() > 0);
+    }
+    
+    public void setAcceleration(float acc)
+    {
+        acceleration = acc;
+    }
+    
+    public void accelerateAtAngle(float angle)
+    {
+        accelerationVec.add(new Vector2(acceleration,0).setAngle(angle));
+    }
+    
+    public void accelerateForward()
+    {
+        accelerateAtAngle(getRotation());
+    }
+    
+    public void setMaxSpeed(float ms)
+    {
+        maxSpeed=ms;
+    }
+    
+    public void setDeceleration(float dec)
+    {
+        deceleration = dec;
+    }
+    
+    public void applyPhysics(float dt)
+    {
+        // apply acceleration
+        velocityVec.add(accelerationVec.x * dt, accelerationVec.y * dt);
+        
+        float speed= getSpeed();
+        
+        // decrease speed (decelerate) when not accelerating
+        if(accelerationVec.len()==0)
+            speed -= deceleration * dt;
+        
+        // keep speed within set bounds
+        speed = MathUtils.clamp(speed,0,maxSpeed);
+        
+        // update velocity
+        setSpeed(speed);
+        
+        // apply velocity
+        moveBy(velocityVec.x * dt, velocityVec.y * dt);
+        
+        // reset acceleration
+        accelerationVec.set(0,0);
     }
  
 }

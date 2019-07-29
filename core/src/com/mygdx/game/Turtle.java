@@ -15,24 +15,38 @@ public class Turtle extends BaseActor
 {
     public Turtle(float x, float y, Stage s)
     {
-        super(x,y,s);
+       super(x,y,s);
         
-        String[] filenames =  {"assets/turtle-1.png", "assets/turtle-2.png", "assets/turtle-3.png", "assets/turtle-4.png", "assets/turtle-5.png", "assets/turtle-6.png"};
+       String[] filenames =  {"assets/turtle-1.png", "assets/turtle-2.png", "assets/turtle-3.png", "assets/turtle-4.png", "assets/turtle-5.png", "assets/turtle-6.png"};
         
        loadAnimationFromFiles(filenames,0.1f,true);
+       
+       setAcceleration(400);
+       setMaxSpeed(100);
+       setDeceleration(400);
+       
+       
     }
     
     @Override
     public void act(float dt)
     {
        super.act(dt);
+       
        if (Gdx.input.isKeyPressed(Keys.LEFT))
-           this.moveBy(-1,0);
+           accelerateAtAngle(180);
        if (Gdx.input.isKeyPressed(Keys.RIGHT))
-           this.moveBy(1,0);
+           accelerateAtAngle(0);
        if (Gdx.input.isKeyPressed(Keys.UP))
-           this.moveBy(0,1);
+           accelerateAtAngle(90);
        if (Gdx.input.isKeyPressed(Keys.DOWN))
-           this.moveBy(0,-1);
+           accelerateAtAngle(270);
+       
+       applyPhysics(dt);
+       
+       setAnimationPaused(!isMoving());
+       
+       if(getSpeed() > 0)
+            setRotation(getMotionAngle());
     }
 }
