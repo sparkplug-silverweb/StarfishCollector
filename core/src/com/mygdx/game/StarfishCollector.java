@@ -5,6 +5,7 @@ package com.mygdx.game;
  *
  * @author lserd
  */
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class StarfishCollector extends GameBeta
 {
@@ -27,7 +28,19 @@ public class StarfishCollector extends GameBeta
     @Override
     public void update(float dt)
     {
-        // code will be added later
+        if (turtle.overlaps(starfish) && !starfish.isCollected() )
+        {
+            starfish.collect();
+            Whirlpool whirl = new Whirlpool(0,0, mainStage);
+            whirl.centerAtActor( starfish );
+            whirl.setOpacity(0.25f);
+            BaseActor youWinMessage = new BaseActor(0,0,mainStage);
+            youWinMessage.loadTexture("assets/you-win.png");
+            youWinMessage.centerAtPosition(300,300);
+            youWinMessage.setOpacity(0);
+            youWinMessage.addAction( Actions.delay(1) );
+            youWinMessage.addAction( Actions.after( Actions.fadeIn(1) ) );
+        }
     }
     
 }
